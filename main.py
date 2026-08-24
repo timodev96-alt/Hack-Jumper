@@ -9,7 +9,6 @@ SCREEN_HEIGHT = 500
 screen = pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHT))
 pygame.display.set_caption("Hack Jumper")
 clock = pygame.time.Clock()
-pygame.draw.rect(screen,(0,0,0), player.ground)
 running = True
 while running:
     for event in pygame.event.get():
@@ -18,9 +17,11 @@ while running:
             
     screen.fill((130,200,240))   
     player.moves()
+    pygame.draw.rect(screen,(0,0,0), player.ground)
     player.draw(screen)
     pygame.display.flip()
     clock.tick(60)
+    
 
 pygame.quit()
 sys.exit()

@@ -21,7 +21,8 @@ def moves():
    player_rect.y += velocity  
    if player_rect.colliderect(ground) :
       player_rect.bottom = ground.top
-   
+      velocity = 0
+    
 def draw(page):
    pygame.draw.rect(page,(255,0,0),player_rect)
 
