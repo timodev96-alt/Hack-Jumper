@@ -4,6 +4,7 @@ import sys
 
 from renderer import calculate_render_rect
 from camera import Camera
+from terrain import Terrain
 import debug
 import constans
 
@@ -18,6 +19,7 @@ pygame.display.set_caption(constans.TITLE)
 
 clock = pygame.time.Clock()
 camera = Camera()
+terrain = Terrain()
 render_rect = calculate_render_rect(constans.SCREEN_WIDTH,constans.SCREEN_HEIGHT)
 
 running = True
@@ -29,9 +31,10 @@ while running:
             render_rect = calculate_render_rect(event.w,event.h)
 
     debug.handel_debug_input(camera)
+    terrain.update(camera.y)
 
     canvas.fill((130,200,240))
-
+    terrain.draw(canvas,camera)
     debug.draw_debug_info(canvas,camera)
 
     scaled_surface = pygame.transform.smoothscale(canvas,(render_rect.width,render_rect.height))

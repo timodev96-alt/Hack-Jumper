@@ -15,8 +15,8 @@ def draw_debugger(surface, camera_y):
 def handel_debug_input(camera):
     if constans.DEBUG_MODE == True:
         keys = pygame.key.get_pressed()
-        if keys[pygame.K_UP]: camera.move(-1)
-        if keys[pygame.K_DOWN] : camera.move(1)
+        if keys[pygame.K_UP]: camera.move(-7)
+        if keys[pygame.K_DOWN] : camera.move(6)
 
 def draw_debug_info(surface,camera):
     if constans.DEBUG_MODE == True:
