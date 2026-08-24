@@ -18,6 +18,8 @@ while running:
     screen.fill((130,200,240))   
     player.moves()
     pygame.draw.rect(screen,(0,0,0), player.ground)
+    pygame.draw.rect(screen,(0,0,0,),player.right_wall)
+    pygame.draw.rect(screen,(0,0,0,),player.left_wall)
     player.draw(screen)
     pygame.display.flip()
     clock.tick(60)
