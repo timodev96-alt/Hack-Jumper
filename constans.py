@@ -1,8 +1,10 @@
 #constans.py
+DEBUG_MODE = True
+
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 700
 TARGET_RATIO = SCREEN_WIDTH/SCREEN_HEIGHT
 
 FPS = 60
 
-TITLE = "Hack-Jumper"
+TITLE = "Hack Jumper"
