@@ -7,6 +7,8 @@ import camera
 pygame.font.init()
 font = pygame.font.SysFont("Arial", 24)
 
+starting_camera_y = 280
+
 def draw_debugger(surface, camera_y):
     if constans.DEBUG_MODE == True:
         text_surf = font.render(f"Y: {int(camera_y)}",True, (255,255,255))
@@ -20,6 +22,7 @@ def handel_debug_input(camera):
 
 def draw_debug_info(surface,camera):
     if constans.DEBUG_MODE == True:
-        debug_text = f"Y:{int(camera.y)}"
+        height = starting_camera_y - camera.y
+        debug_text = f"Y:{int(height)}"
         text_surface = font.render(debug_text,True,(255,255,255))
         surface.blit(text_surface, (10,10))

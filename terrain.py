@@ -6,11 +6,10 @@ import constans
 class Terrain:
     def __init__(self):
         self.platforms = []
-        self.last_x = constans.SCREEN_WIDTH
-        self.last_y = constans.SCREEN_HEIGHT
-
+        self.last_x = constans.SCREEN_WIDTH //2
         floor = pygame.Rect(0, constans.SCREEN_HEIGHT - 20, constans.SCREEN_WIDTH, 20)
         self.platforms.append(floor)
+        self.last_y = floor.top
 
         self.generate(20)
 
