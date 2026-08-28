@@ -1,42 +1,49 @@
+#player.py
 import pygame
+import terrain
+import constans
 
-ongraoung = True
-gravity = 0.5
-velocity = 0
-x = 50
-y = 50
-speed = 5
-jump = -12
-player_rect = pygame.Rect(x,y,50,50)
-ground = pygame.Rect(0, 490, 900, 100)
-left_wall = pygame.Rect(-90, 0 ,100, 900)
-right_wall = pygame.Rect(690, 0 ,100, 900)
-def moves():
-   global x, y, velocity, ongraoung 
-   keys = pygame.key.get_pressed()
-   if keys[pygame.K_RIGHT]:
-     x = x + speed
-     player_rect.x = x
-   if keys[pygame.K_LEFT]:
-     x = x - speed
-     player_rect.x = x
-   velocity += gravity
-   player_rect.y += velocity  
+class Player:
+      def __init__(self):
+            self.ongraoung = True
+            self.gravity = 0.5
+            self.velocity = 0
+            self.x = 50
+            self.y = 50
+            self.speed = 5
+            self.jump = -12
+            self.player_rect = pygame.Rect(self.x,self.y,50,50)
 
-   if player_rect.colliderect(ground) :
-      player_rect.bottom = ground.top
-      velocity = 0
-      ongraoung = True
-   if player_rect.colliderect(right_wall) :
-         player_rect.right = right_wall.left
-         x -= 5
-   if player_rect.colliderect(left_wall) :
-         player_rect.left = left_wall.right
-         x += 5      
-   if keys[pygame.K_SPACE] and ongraoung == True:
-      velocity = -10
-      ongraoung = False
+      def moves(self , terrain):
+            self.keys = pygame.key.get_pressed()
+            if self.keys[pygame.K_RIGHT]:
+                  self.x = self.x + self.speed
+                  self.player_rect.x = self.x
 
-def draw(page):
-   pygame.draw.rect(page,(255,0,0),player_rect)
+            if self.keys[pygame.K_LEFT]:
+                  self.x = self.x - self.speed
+                  self.player_rect.x = self.x
+
+            self.velocity += self.gravity
+            if self.velocity > 15:
+                  self.velocity = 15
+            self.player_rect.y += self.velocity
+            self.ongraoung = False
+
+            if self.velocity >= 0:
+                  for plat in terrain.platforms:
+                        if self.player_rect.colliderect(plat):
+                              prev_bottom = self.player_rect.bottom - self.velocity
+                              if prev_bottom <= plat.top:
+                                    self.player_rect.bottom = plat.top
+                                    self.velocity = 0
+                                    self.ongraoung = True
+            self.y = self.player_rect.y
+                  
+            if self.keys[pygame.K_SPACE] and self.ongraoung == True:
+                  self.velocity = self.jump
+                  self.ongraoung = False
+
+      def draw(self,page,camera):
+            pygame.draw.rect(page,(255,0,0),camera.apply(self.player_rect))
 
