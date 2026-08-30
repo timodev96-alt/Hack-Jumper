@@ -2,7 +2,6 @@
 import pygame
 import terrain
 import constans
-
 class Player:
       def __init__(self):
             self.ongraoung = True

@@ -1,5 +1,6 @@
 #main.py
 import pygame
+import shop
 import sys 
 from renderer import calculate_render_rect
 from camera import Camera
@@ -19,7 +20,6 @@ camera = Camera()
 terrain = Terrain()
 player = Player()
 render_rect = calculate_render_rect(constans.SCREEN_WIDTH,constans.SCREEN_HEIGHT)
-
 running = True
 while running:
     for event in pygame.event.get():
