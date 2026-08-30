@@ -9,6 +9,9 @@ import constans
 from player import Player
 pygame.init()
 
+pygame.font.init()
+score_font = pygame.font.SysFont("Arial", 45)
+
 
 screen = pygame.display.set_mode((constans.SCREEN_WIDTH,constans.SCREEN_HEIGHT), pygame.RESIZABLE)
 canvas = pygame.Surface((constans.SCREEN_WIDTH,constans.SCREEN_HEIGHT))
@@ -37,6 +40,10 @@ while running:
     terrain.draw(canvas,camera)
     player.draw(canvas, camera)
     debug.draw_debug_info(canvas,camera)
+
+    score_text = score_font.render(f"{player.score}", True,(255,255,255))
+    score_rect = score_text.get_rect(center=(constans.SCREEN_WIDTH//2, 30))
+    canvas.blit(score_text,score_rect)
 
     scaled_surface = pygame.transform.smoothscale(canvas,(render_rect.width,render_rect.height))
     screen.fill((0,0,0))
