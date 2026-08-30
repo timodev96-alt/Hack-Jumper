@@ -22,11 +22,12 @@ class Terrain:
             else:
                 width = random.randint(120,200)
                 max_offset = 150
-                min_x = max(0, self.last_x - max_offset)
-                max_x = min(constans.SCREEN_WIDTH - width, self.last_x + max_offset)
+                min_x = max(width//2, self.last_x - max_offset)
+                max_x = min(constans.SCREEN_WIDTH - width //2, self.last_x + max_offset)
                 if min_x > max_x:
-                    min_x, max_x = 0, constans.SCREEN_WIDTH - width
-                x= random.randint(min_x,max_x)
+                    min_x, max_x = width //2 , constans.SCREEN_WIDTH - width //2
+                center = random.randint(min_x,max_x)
+                x= center - width //2
 
             new_plat = pygame.Rect(x,self.last_y,width,constans.PLATFORM_HEIGHT)
             self.platforms.append(new_plat)
