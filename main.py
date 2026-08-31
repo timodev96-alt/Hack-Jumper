@@ -33,7 +33,7 @@ while running:
 
     debug.handel_debug_input(camera)
     player.moves(terrain)
-    camera.y = player.player_rect.y - (constans.SCREEN_HEIGHT //2 )
+    camera.follow(player.player_rect.y, constans.SCREEN_HEIGHT // 2)
     terrain.update(camera.y)
 
     canvas.fill((130,200,240))
