@@ -7,45 +7,67 @@ class Player:
       def __init__(self):
             self.ongraoung = True
             self.gravity = 0.5
-            self.velocity = 0
+            self.velocity_x = 0
+            self.velocity_y = 0
             self.x = 50.0
             self.y = 630.0
-            self.speed = 5
-            self.jump = -12
+
+            self.accel = 0.35
+            self.friction = 0.97
+            self.bounce = 0.65
+            self.max_speed = 12.0
+
+            self.speed_jump_factor = 1.2
+            self.base_jump = -9
+
             self.score = -1
             self.landed_plat = set()
             self.player_rect = pygame.Rect(self.x,self.y,50,50)
 
       def moves(self , terrain):
             self.keys = pygame.key.get_pressed()
+            
+            moving = False
             if self.keys[pygame.K_RIGHT] or self.keys[pygame.K_d]:
-                  self.x += self.speed
+                  self.velocity_x += self.accel
+                  moving = True
             if self.keys[pygame.K_LEFT] or self.keys[pygame.K_a]:
-                  self.x -= self.speed
+                  self.velocity_x -= self.accel
+                  moving = True
+
+            if not moving:
+                  self.velocity_x *= self.friction
+                  if abs(self.velocity_x) < 0.05:
+                        self.velocity_x =0
+
+            self.velocity_x = max(-self.max_speed, min(self.velocity_x, self.max_speed))
+            self.x += self.velocity_x
 
             if self.x < constans.WALLS_WIDTH:
                   self.x = constans.WALLS_WIDTH
-            if self.x + self.player_rect.width > constans.SCREEN_WIDTH - constans.WALLS_WIDTH:
+                  self.velocity_x = -self.velocity_x * self.bounce
+            elif self.x + self.player_rect.width > constans.SCREEN_WIDTH - constans.WALLS_WIDTH:
                   self.x = constans.SCREEN_WIDTH - constans.WALLS_WIDTH - self.player_rect.width
+                  self.velocity_x = -self.velocity_x *self.bounce 
 
-            self.velocity += self.gravity
-            if self.velocity > 15:
-                  self.velocity = 15
+            self.velocity_y += self.gravity
+            if self.velocity_y > 15:
+                  self.velocity_y = 15
 
             prev_bottom = self.y + self.player_rect.height
-            self.y += self.velocity
+            self.y += self.velocity_y
             self.player_rect.x = int(self.x)
             self.player_rect.y = int(self.y)
             
             self.ongraoung = False
 
-            if self.velocity >= 0:
+            if self.velocity_y >= 0:
                   for plat in terrain.platforms:
                         if self.player_rect.right > plat.left and self.player_rect.left < plat.right:
                               if prev_bottom <= plat.top and self.player_rect.bottom >= plat.top:
                                     self.y = plat.top - self.player_rect.height
                                     self.player_rect.y = int(self.y)
-                                    self.velocity = 0
+                                    self.velocity_y = 0
                                     self.ongraoung = True
                                     if id(plat) not in self.landed_plat:
                                           self.landed_plat.add(id(plat))
@@ -54,7 +76,8 @@ class Player:
                   
             if self.keys[pygame.K_SPACE] or self.keys[pygame.K_UP] or self.keys[pygame.K_w]:
                   if self.ongraoung == True:
-                        self.velocity = self.jump
+                        speed_boost = abs(self.velocity_x) * self.speed_jump_factor
+                        self.velocity_y = self.base_jump - speed_boost
                         self.ongraoung = False
 
       def draw(self,page,camera):
