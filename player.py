@@ -23,6 +23,11 @@ class Player:
             if self.keys[pygame.K_LEFT] or self.keys[pygame.K_a]:
                   self.x -= self.speed
 
+            if self.x < constans.WALLS_WIDTH:
+                  self.x = constans.WALLS_WIDTH
+            if self.x + self.player_rect.width > constans.SCREEN_WIDTH - constans.WALLS_WIDTH:
+                  self.x = constans.SCREEN_WIDTH - constans.WALLS_WIDTH - self.player_rect.width
+
             self.velocity += self.gravity
             if self.velocity > 15:
                   self.velocity = 15

@@ -39,6 +39,10 @@ while running:
     canvas.fill((130,200,240))
     terrain.draw(canvas,camera)
     player.draw(canvas, camera)
+
+    pygame.draw.rect(canvas, (0,0,140), (0,0,constans.WALLS_WIDTH, constans.SCREEN_HEIGHT))
+    pygame.draw.rect(canvas, (0,0,140), (constans.SCREEN_WIDTH- constans.WALLS_WIDTH,0, constans.WALLS_WIDTH,constans.SCREEN_HEIGHT))
+
     debug.draw_debug_info(canvas,camera)
 
     score_text = score_font.render(f"{player.score}", True,(255,255,255))
