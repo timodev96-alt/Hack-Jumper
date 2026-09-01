@@ -20,8 +20,8 @@ class Player:
             self.speed_jump_factor = 1.2
             self.base_jump = -9
 
-            self.score = -1
-            self.landed_plat = set()
+            self.highest_y = self.y
+            self.score = 0
             self.player_rect = pygame.Rect(self.x,self.y,50,50)
 
       def moves(self , terrain):
@@ -69,9 +69,6 @@ class Player:
                                     self.player_rect.y = int(self.y)
                                     self.velocity_y = 0
                                     self.ongraoung = True
-                                    if id(plat) not in self.landed_plat:
-                                          self.landed_plat.add(id(plat))
-                                          self.score = self.score + 1
                                     break
                   
             if self.keys[pygame.K_SPACE] or self.keys[pygame.K_UP] or self.keys[pygame.K_w]:
@@ -79,6 +76,12 @@ class Player:
                         speed_boost = abs(self.velocity_x) * self.speed_jump_factor
                         self.velocity_y = self.base_jump - speed_boost
                         self.ongraoung = False
+
+            if self.y < self.highest_y:
+                  self.highest_y = self.y
+            self.score = max(0, int((630-self.highest_y)//10))
+
+            self.is_dead = self.y > self.highest_y + 600
 
       def draw(self,page,camera):
             pygame.draw.rect(page,(255,0,0),camera.apply(self.player_rect))

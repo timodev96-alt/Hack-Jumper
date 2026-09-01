@@ -18,9 +18,18 @@ canvas = pygame.Surface((constans.SCREEN_WIDTH,constans.SCREEN_HEIGHT))
 
 pygame.display.set_caption(constans.TITLE)
 clock = pygame.time.Clock()
-camera = Camera()
+
 terrain = Terrain()
+camera = Camera()
 player = Player()
+
+def reset_game():
+    global camera, terrain, player
+    camera = Camera()
+    camera.y = 0
+    terrain = Terrain()
+    player = Player()
+
 render_rect = calculate_render_rect(constans.SCREEN_WIDTH,constans.SCREEN_HEIGHT)
 
 running = True
@@ -35,6 +44,10 @@ while running:
     player.moves(terrain)
     camera.follow(player.player_rect.y, constans.SCREEN_HEIGHT // 2)
     terrain.update(camera.y)
+
+    if player.is_dead:
+        reset_game()
+        continue
 
     canvas.fill((130,200,240))
     terrain.draw(canvas,camera)

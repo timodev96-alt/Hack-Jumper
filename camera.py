@@ -4,18 +4,15 @@ import pygame
 class Camera:
     def __init__(self):
         self.y = 0
-        self.min_y = 49
 
     def apply(self,rect):
         return rect.move(0, -self.y)
 
-    def move(self, amount):
-        self.y += amount
-        if self.y > self.min_y:
-            self.y = self.min_y
-
     def follow(self, target_y , offset):
-        new_y = target_y - offset
-        if new_y> self.min_y:
-            new_y = self.min_y
-        self.y = new_y
+        upper_dead_zone = offset - 80
+        lower_dead_zone = offset + 80
+        player_screen_y = target_y - self.y
+        if player_screen_y < upper_dead_zone:
+            self.y = target_y - upper_dead_zone
+        elif player_screen_y > lower_dead_zone:
+            self.y = target_y - lower_dead_zone
