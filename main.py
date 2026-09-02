@@ -1,6 +1,7 @@
 #main.py
 import pygame
-import shop
+
+import menu
 import sys 
 from renderer import calculate_render_rect
 from camera import Camera
@@ -9,8 +10,8 @@ import debug
 import constans
 from player import Player
 pygame.init()
-
-
+pygame.font.init()
+score_font = pygame.font.SysFont("Arial", 45)
 screen = pygame.display.set_mode((constans.SCREEN_WIDTH,constans.SCREEN_HEIGHT), pygame.RESIZABLE)
 canvas = pygame.Surface((constans.SCREEN_WIDTH,constans.SCREEN_HEIGHT))
 
@@ -19,7 +20,14 @@ clock = pygame.time.Clock()
 camera = Camera()
 terrain = Terrain()
 player = Player()
+menu_rect = pygame.Rect(680, 20 , 100, 50)
+menu_font = pygame.font.Font(None, 40)
+menu_txt = menu_font.render("Menu", True, (0,0,0))
 render_rect = calculate_render_rect(constans.SCREEN_WIDTH,constans.SCREEN_HEIGHT)
+text_rect = menu_txt.get_rect(center=menu_rect.center)
+menu_status = 0
+
+
 running = True
 while running:
     for event in pygame.event.get():
@@ -38,6 +46,12 @@ while running:
     player.draw(canvas, camera)
     debug.draw_debug_info(canvas,camera)
 
+    score_text = score_font.render(f"{player.score}", True,(255,255,255))
+    score_rect = score_text.get_rect(center=(constans.SCREEN_WIDTH//2, 30))
+    canvas.blit(score_text,score_rect)
+    pygame.draw.rect(canvas, (0, 150, 0), menu_rect, border_radius=15)
+    pygame.draw.rect(canvas, (0, 0, 0), menu_rect, 3, border_radius=15)
+    canvas.blit(menu_txt, text_rect)
     scaled_surface = pygame.transform.smoothscale(canvas,(render_rect.width,render_rect.height))
     screen.fill((0,0,0))
     screen.blit(scaled_surface,(render_rect.x, render_rect.y))

@@ -11,13 +11,15 @@ class Player:
             self.y = 630.0
             self.speed = 5
             self.jump = -12
+            self.score = -1
+            self.landed_plat = set()
             self.player_rect = pygame.Rect(self.x,self.y,50,50)
 
       def moves(self , terrain):
             self.keys = pygame.key.get_pressed()
-            if self.keys[pygame.K_RIGHT]:
+            if self.keys[pygame.K_RIGHT] or self.keys[pygame.K_d]:
                   self.x += self.speed
-            if self.keys[pygame.K_LEFT]:
+            if self.keys[pygame.K_LEFT] or self.keys[pygame.K_a]:
                   self.x -= self.speed
 
             self.velocity += self.gravity
@@ -39,11 +41,15 @@ class Player:
                                     self.player_rect.y = int(self.y)
                                     self.velocity = 0
                                     self.ongraoung = True
+                                    if id(plat) not in self.landed_plat:
+                                          self.landed_plat.add(id(plat))
+                                          self.score = self.score + 1
                                     break
                   
-            if self.keys[pygame.K_SPACE] and self.ongraoung == True:
-                  self.velocity = self.jump
-                  self.ongraoung = False
+            if self.keys[pygame.K_SPACE] or self.keys[pygame.K_UP] or self.keys[pygame.K_w]:
+                  if self.ongraoung == True:
+                        self.velocity = self.jump
+                        self.ongraoung = False
 
       def draw(self,page,camera):
             pygame.draw.rect(page,(255,0,0),camera.apply(self.player_rect))
