@@ -17,13 +17,13 @@ class Terrain:
         for i in range(count):
             self.last_y -= constans.VERTICAL_GAP
             if self.last_y %1500 == 0 and self.last_y != 0:
-                width = constans.SCREEN_WIDTH
-                x=0
+                width = constans.SCREEN_WIDTH - (constans.WALLS_WIDTH*2)
+                x= constans.WALLS_WIDTH
             else:
                 width = random.randint(120,200)
                 max_offset = 150
-                min_x = max(width//2, self.last_x - max_offset)
-                max_x = min(constans.SCREEN_WIDTH - width //2, self.last_x + max_offset)
+                min_x = max(constans.WALLS_WIDTH + width //2, self.last_x - max_offset)
+                max_x = min(constans.SCREEN_WIDTH - constans.WALLS_WIDTH -width //2, self.last_x + max_offset)
                 if min_x > max_x:
                     min_x, max_x = width //2 , constans.SCREEN_WIDTH - width //2
                 center = random.randint(min_x,max_x)
