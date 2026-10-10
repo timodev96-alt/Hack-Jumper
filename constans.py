@@ -1,5 +1,5 @@
 #constans.py
-DEBUG_MODE = True
+DEBUG_MODE = False
 
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 700
